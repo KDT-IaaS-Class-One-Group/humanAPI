@@ -1,29 +1,43 @@
-const clientId = '_bYVaIBaPHNCSbVNe7Y4'; // 네이버 개발자 포털에서 발급한 Client ID
-const clientSecret = 'DcssvgMc9J'; // 네이버 개발자 포털에서 발급한 Client Secret
+// API 키를 자신의 네이버 개발자 포털에서 발급받은 키로 변경하세요.
+const apiKey = 'YOUR_API_KEY';
 
-const query = '검색어'; // 검색하고자 하는 단어나 문장
+document.getElementById('searchButton').addEventListener('click', searchNaverAPI);
 
-const url = `https://openapi.naver.com/v1/search/encyc.json?query=${query}`;
+async function searchNaverAPI() {
+  const query = prompt('검색어를 입력하세요:');
+  if (!query) {
+    return;
+  }
 
-// http://localhost:3217
-fetch(url, {
-  method: 'GET',
-  headers: {
-    'X-Naver-Client-Id': clientId,
-    'X-Naver-Client-Secret': clientSecret,
-  },
-})
-  .then(response => {
+  try {
+    const response = await fetch(`https://openapi.naver.com/v1/search/webkr.json?query=${query}`, {
+      headers: {
+        'X-Naver-Client-Id': apiKey,
+        'X-Naver-Client-Secret': apiKey,
+      },
+    });
+
     if (response.status === 200) {
-      return response.json();
+      const data = await response.json();
+      displayResults(data.items);
     } else {
-      throw new Error('API 호출 실패');
+      console.error('API 호출 실패: ' + response.status);
     }
-  })
-  .then(data => {
-    // API 응답을 처리하는 코드 작성
-    console.log(data);
-  })
-  .catch(error => {
-    console.error(error);
+  } catch (error) {
+    console.error('에러 발생: ' + error);
+  }
+}
+
+function displayResults(items) {
+  const resultsDiv = document.getElementById('results');
+  resultsDiv.innerHTML = '';
+
+  items.forEach(item => {
+    const resultItem = document.createElement('div');
+    resultItem.innerHTML = `
+      <p><strong>${item.title}</strong></p>
+      <p>${item.link}</p>
+    `;
+    resultsDiv.appendChild(resultItem);
   });
+}
