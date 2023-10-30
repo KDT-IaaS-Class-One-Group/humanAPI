@@ -4,8 +4,8 @@ api_url = "https://openapi.naver.com/v1/search/encyc.json"
 query = "검색어"  # 검색하고자 하는 단어나 문장
 
 headers = {
-    "X-Naver-Client-Id": "YOUR_CLIENT_ID",
-    "X-Naver-Client-Secret": "YOUR_CLIENT_SECRET"
+    "X-Naver-Client-Id": "_bYVaIBaPHNCSbVNe7Y4",
+    "X-Naver-Client-Secret": "DcssvgMc9J"
 }
 
 params = {
