@@ -6,11 +6,9 @@ const port = 3000; // 사용할 포트 번호
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static('public')); // 'public'은 정적 파일이 위치한 디렉토리명
-
 app.get('/', (req, res) => {
     // 클라이언트에게 HTML 파일 제공
-    res.sendFile(__dirname + '/movie.html'); // 수정된 부분
+    res.sendFile(__dirname + '/movie.html');
 });
 
 app.get('/getMovieRanking', async (req, res) => {
@@ -29,6 +27,11 @@ app.get('/getMovieRanking', async (req, res) => {
         res.status(500).json({ error: '데이터를 가져오는 중에 오류가 발생했습니다.' });
     }
 });
+app.get('/movie.js', (req, res) => {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(__dirname + '/movie.js');
+});
+
 
 app.listen(port, () => {
     console.log(`서버가 포트 ${port}에서 실행 중입니다.`);
