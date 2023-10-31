@@ -10,7 +10,7 @@ app.use(express.static('public')); // 'public'은 정적 파일이 위치한 디
 
 app.get('/', (req, res) => {
     // 클라이언트에게 HTML 파일 제공
-    res.sendFile(__dirname + 'movie.html');
+    res.sendFile(__dirname + '/movie.html'); // 수정된 부분
 });
 
 app.get('/getMovieRanking', async (req, res) => {
