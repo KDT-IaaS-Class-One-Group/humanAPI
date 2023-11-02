@@ -10,7 +10,7 @@ const fs = require('fs');
 const port = 3217;
 
 //정적 파일을 서빙
-app.use(express.static("static"));
+app.use(express.static("public"));
 
 // 데이터를 파싱하기 위한 선언 
 app.use(express.urlencoded({ extended: true }));
@@ -22,7 +22,7 @@ const clientSecret = "DcssvgMc9J"
 
 // index res
 app.get('/login', (req, res) =>{
-  res.sendFile(__dirname + '/static/index.html')
+  res.sendFile(__dirname + '/public/index.html')
 })
 
 
@@ -35,7 +35,7 @@ app.post('/search.html', (req, res)=>{
   const goodPw = '0177';
 
   if(userid === goodId && userpw=== goodPw){
-    res.sendFile(__dirname + '/static/search.html')
+    res.sendFile(__dirname + '/public/search.html')
   }
 })
 
