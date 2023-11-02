@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: gray;
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 2vh; /* 높이의 2%만큼 padding 추가 */
+        }
+        .container {
+            max-width: 80vw; /* 너비의 80%로 최대 너비 설정 */
+            margin: 0 auto;
+        }
+        .login-button {
+            float: right;
+            margin-top: 1vh; /* 높이의 1%만큼 margin-top 추가 */
+        }
+        .search-box {
+            margin: 5vh 0; /* 높이의 5%만큼 margin 추가 */
+        }
+        .url-status {
+            margin-top: 2vh; /* 높이의 2%만큼 margin-top 추가 */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>Welcome to My Website</h1>
+            <a href="#" class="login-button">Login</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="search-box">
+            <input type="text" placeholder="Search..." id="search-input">
+            <button onclick="search()">Search</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="url-status">
+            Current URL: <span id="current-url"></span>
+        </div>
+    </div>
+
+    <script>
+        function search() {
+            const searchTerm = document.getElementById('search-input').value;
+            // Perform search or other actions with the search term
+        }
+
+        // JavaScript code to update and display the current URL
+        document.getElementById('current-url').textContent = window.location.href;
+    </script>
+</body>
+</html>
