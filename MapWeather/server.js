@@ -1,7 +1,6 @@
 // app.mjs
-
-import express from 'express';
-import path from 'path'; // path 모듈 추가
+const express = require('express');
+const path = require('path');
 
 const app = express();
 const port = 7070;
@@ -10,7 +9,7 @@ const port = 7070;
 app.use(express.static(path.join(__dirname, 'MapWeather')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'MapWeather', 'Map.html'));
+  res.sendFile(path.join(__dirname, 'Map.html'));
 });
 
 app.listen(port, () => {
