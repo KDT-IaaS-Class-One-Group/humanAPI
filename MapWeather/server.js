@@ -6,10 +6,10 @@ const app = express();
 const port = 7070;
 
 // 정적 파일 제공을 위한 미들웨어 설정
-app.use(express.static(path.join(__dirname, 'MapWeather')));
+app.use(express.static(path.join(__dirname, 'Map')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'Map.html'));
+  res.sendFile(path.join(__dirname, 'staticMap/Map.html'));
 });
 
 app.listen(port, () => {
