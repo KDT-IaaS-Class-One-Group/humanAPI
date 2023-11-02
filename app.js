@@ -1,6 +1,7 @@
 // API 키를 자신의 네이버 개발자 포털에서 발급받은 키로 변경하세요.
 const id = '_bYVaIBaPHNCSbVNe7Y4';
 const secret = 'DcssvgMc9J';
+
 document.getElementById('searchButton').addEventListener('click', searchNaverAPI);
 
 async function searchNaverAPI() {
