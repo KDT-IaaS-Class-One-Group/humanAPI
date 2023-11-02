@@ -8,15 +8,119 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
     />
     <title>간단한 지도 표시하기</title>
-    <style></style>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      #root {
+        width: 100vw;
+        height: 100vh;
+        background-color: white;
+
+        display: flex;
+      }
+      #root > div:nth-child(2) {
+        width: 30vw;
+        height: 100vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+      #root > div:nth-child(2) > div:nth-child(1) {
+        width: 300px;
+        height: 10vh;
+        background-color: #d9d9d9c1;
+        margin-bottom: 5vw;
+        border-radius: 30px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: left;
+      }
+      #root > div:nth-child(2) > div:nth-child(2) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+      #root > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) {
+        width: 300px;
+        height: 50px;
+        background-color: #d9d9d9c1;
+        border-radius: 30px;
+        margin-bottom: 1vw;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      #root > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) {
+        width: 300px;
+        height: 150px;
+        background-color: #d9d9d9c1;
+        margin-bottom: 5vw;
+        border-radius: 30px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      #sp {
+        width: 300px;
+        display: inline-block;
+        justify-content: space-between;
+
+        text-align: left;
+      }
+    </style>
     <script
       type="text/javascript"
       src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=dfgwf993ud"
     ></script>
   </head>
   <body>
-    <div id="map" style="width: 100%; height: 400px"></div>
-
+    <div id="root">
+      <div id="map" style="width: 70vw; height: 100vh"></div>
+      <div>
+        <div>
+          <div>
+            <h2>지역 검색</h2>
+          </div>
+          <div>
+            <label for="serch"><b>serch : </b></label>
+            <input type="text" name="" id="serch" />
+            <input type="button" id="button" value="찾기" />
+          </div>
+        </div>
+        <div>
+          <div>
+            <h2>날씨 정보</h2>
+          </div>
+          <div>
+            <div id="sp">
+              <label for="wea"><b>weather : </b></label>
+              <input type="text" name="weather" id="wea" />
+              <div id="sp"></div>
+              <label for="tem"><b>emperature : </b></label>
+              <input type="text" name="temperature" id="tem" />
+              <div id="sp"></div>
+              <label for="hum"><b>humidity : </b></label>
+              <input type="text" name="humidity" id="hum" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <script>
       var mapDiv = document.getElementById("map");
       var mapOptions = {
