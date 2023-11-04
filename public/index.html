@@ -33,11 +33,35 @@
         <br>
         <input id="submit" type="submit" placeholder="login" value="Login">
         <br>
+        <ul id="ul"></ul>
       </form>  
     </div>
   </div>
-  <script>
+  <script type="text/javascript">
+  
+    let xhttp = new XMLHttpRequest();
     
-  </script>
+    
+    xhttp.onreadystatechange = function () {
+      if(xhttp.readyState == 4 && xhttp.status == 200){
+        // jsonfunc(this.responseText); //this => xhttp
+        jsonfunc(xhttp.responseText); // 
+      }
+    }
+    xhttp.open("GET","js.json", true);
+    xhttp.send();
+    
+    function jsonfunc( jsonText ) {
+      let json = JSON.parse(jsonText); // String -> json으로 변환
+      let txt = "";
+      // 접근법 1
+      for(i=0; i<json.length; i++){
+        for(key in json[i]){ // key값 가져오기
+          txt += key + ":" + json[i][key]; 
+        }
+      } 
+      document.getElementById('ul').innerHTML = txt;
+    }
+    </script>
 </body>
 </html>
