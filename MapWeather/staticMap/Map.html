@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="Map.css" />
     <script
       type="text/javascript"
-      src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=dfgwf993ud"
+      src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=dfgwf993ud"
     ></script>
   </head>
   <body>
@@ -29,7 +29,7 @@
               id="locationInput"
               placeholder="장소를 검색하세요"
             />
-            <button onclick="searchLocation()">검색</button>
+            <button onclick="searchLocation()" id="button">검색</button>
           </div>
         </div>
         <div>
@@ -52,5 +52,6 @@
       </div>
     </div>
     <script src="Map.js" type="module"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   </body>
 </html>
