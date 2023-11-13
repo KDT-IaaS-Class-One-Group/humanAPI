@@ -1,0 +1,4 @@
+/Mapweather/node_modules/
+.hintrc
+.gitignore
+package.json
