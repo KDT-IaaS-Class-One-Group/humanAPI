@@ -1,7 +1,7 @@
 const MapApi = (mapDiv, map) => {
   mapDiv = document.getElementById("map");
   const mapOption = {
-    center: new naver.maps.LatLng(37.3595316, 127.1052133),
+    center: new naver.maps.LatLng(36.34933, 127.3777),
     zoom: 15,
     mapTypeControl: true,
   };
