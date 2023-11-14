@@ -1,4 +1,4 @@
-const MapApi = (mapDiv, map, latlng) => {
+const MapApi = (mapDiv, map, address) => {
   mapDiv = document.getElementById("map");
   const mapOption = {
     center: new naver.maps.LatLng(36.34933, 127.3777),
@@ -12,7 +12,6 @@ const MapApi = (mapDiv, map, latlng) => {
   };
 
   map = new naver.maps.Map("mapDiv", mapOption);
-
   var infoWindow = new naver.maps.InfoWindow({
     anchorSkew: true
   });
@@ -21,84 +20,88 @@ const MapApi = (mapDiv, map, latlng) => {
 
   function searchCoordinateToAddress(latlng) {
 
+
     infoWindow.close();
+    naver.maps.Service.Geocode(
+      {
+        coords: latlng,
+        orders: [
+          naver.maps.Service.OrderType.ADDR,
+          naver.maps.Service.OrderType.ROAD_ADDR
+        ].join(',')
+      },
+      function (status, response) {
+        if (status === naver.maps.Service.Status.ERROR) {
+          return alert('Something Wrong!');
+        }
 
-    naver.maps.Service.reverseGeocode({
-      coords: latlng,
-      orders: [
-        naver.maps.Service.OrderType.ADDR,
-        naver.maps.Service.OrderType.ROAD_ADDR
-      ].join(',')
-    }, function (status, response) {
-      if (status === naver.maps.Service.Status.ERROR) {
-        return alert('Something Wrong!');
-      }
+        var items = response.v2.results,
+          address = '',
+          htmlAddresses = [];
 
-      var items = response.v2.results,
-        address = '',
-        htmlAddresses = [];
+        for (var i = 0, ii = items.length, item, addrType; i < ii; i++) {
+          item = items[i];
+          address = makeAddress(item) || '';
+          addrType = item.name === 'roadaddr' ? '[도로명 주소]' : '[지번 주소]';
 
-      for (var i = 0, ii = items.length, item, addrType; i < ii; i++) {
-        item = items[i];
-        address = makeAddress(item) || '';
-        addrType = item.name === 'roadaddr' ? '[도로명 주소]' : '[지번 주소]';
+          htmlAddresses.push((i + 1) + '. ' + addrType + ' ' + address);
+        }
 
-        htmlAddresses.push((i + 1) + '. ' + addrType + ' ' + address);
-      }
+        infoWindow.setContent([
+          '<div style="padding:10px;min-width:200px;line-height:150%;">',
+          '<h4 style="margin-top:5px;">검색 좌표</h4><br />',
+          htmlAddresses.join('<br />'),
+          '</div>'
+        ].join('\n'));
 
-      infoWindow.setContent([
-        '<div style="padding:10px;min-width:200px;line-height:150%;">',
-        '<h4 style="margin-top:5px;">검색 좌표</h4><br />',
-        htmlAddresses.join('<br />'),
-        '</div>'
-      ].join('\n'));
-
-      infoWindow.open(map, latlng);
-    });
+        infoWindow.open(map, latlng);
+      });
   }
 
-  function searchAddressToCoordinate(address) {
-    naver.maps.Service.Geocode({
-      coords: latlng,
-      orders: [
-        naver.maps.Service.OrderType.ADDR,
-        naver.maps.Service.OrderType.ROAD_ADDR
-      ].join(',')
-    }, function (status, response) {
-      if (status === naver.maps.Service.Status.ERROR) {
-        return alert('Something Wrong!');
-      }
+  function searchAddressToCoordinate(address, latlng) {
+    naver.maps.Service.geocode(
+      {
+        coords: latlng,
+        orders: [
+          naver.maps.Service.OrderType.ADDR,
+          naver.maps.Service.OrderType.ROAD_ADDR
+        ].join(',')
+      },
+      function (status, response) {
+        if (status === naver.maps.Service.Status.ERROR) {
+          return alert('Something Wrong!');
+        }
 
-      if (response.v2.meta.totalCount === 0) {
-        return alert('totalCount' + response.v2.meta.totalCount);
-      }
+        if (response.v2.meta.totalCount === 0) {
+          return alert('totalCount' + response.v2.meta.totalCount);
+        }
 
-      var htmlAddresses = [],
-        item = response.v2.addresses[0],
-        point = new naver.maps.Point(item.x, item.y);
+        var htmlAddresses = [],
+          item = response.v2.addresses[0],
+          point = new naver.maps.Point(item.x, item.y);
 
-      if (item.roadAddress) {
-        htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
-      }
+        if (item.roadAddress) {
+          htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
+        }
 
-      if (item.jibunAddress) {
-        htmlAddresses.push('[지번 주소] ' + item.jibunAddress);
-      }
+        if (item.jibunAddress) {
+          htmlAddresses.push('[지번 주소] ' + item.jibunAddress);
+        }
 
-      if (item.englishAddress) {
-        htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
-      }
+        if (item.englishAddress) {
+          htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
+        }
 
-      infoWindow.setContent([
-        '<div style="padding:10px;min-width:200px;line-height:150%;">',
-        '<h4 style="margin-top:5px;">검색 주소 : ' + address + '</h4><br />',
-        htmlAddresses.join('<br />'),
-        '</div>'
-      ].join('\n'));
+        infoWindow.setContent([
+          '<div style="padding:10px;min-width:200px;line-height:150%;">',
+          '<h4 style="margin-top:5px;">검색 주소 : ' + address + '</h4><br />',
+          htmlAddresses.join('<br />'),
+          '</div>'
+        ].join('\n'));
 
-      map.setCenter(point);
-      infoWindow.open(map, point);
-    });
+        map.setCenter(point);
+        infoWindow.open(map, point);
+      });
   }
 
   function initGeocoder() {
@@ -120,7 +123,7 @@ const MapApi = (mapDiv, map, latlng) => {
       searchAddressToCoordinate($('#address').val());
     });
 
-    searchAddressToCoordinate('정자동 178-1');
+    searchAddressToCoordinate("둔산동");
   }
 
   function makeAddress(item) {
